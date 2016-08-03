@@ -2,7 +2,7 @@
 ##
 ##
 
-cd ~/Desktop/screen_cost/nina_costing
+cd ~/Desktop/screen_cost/will_costing
 git pull
 python3 cost_tracking.py
 git add .
