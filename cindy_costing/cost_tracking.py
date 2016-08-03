@@ -20,11 +20,11 @@ import os
 
 # # Creating Output Files to store data
 
-# Creates empty data frames with column names for each task, and then write them to a unique csv file
+# # Creates empty data frames with column names for each task, and then write them to a unique csv file
 
-# plate_filling = pd.DataFrame(data=None,columns=['ts','name','plates','media','tips','antibiotic','antibio_vol','antibio_conc','fill_time'])
+# plate_filling = pd.DataFrame(data=None,columns=['ts','name','plates','media','tips','fill_time'])
 # colony_picking = pd.DataFrame(data=None,columns=['ts','name','plates','lids','stickers','toothpicks','dishes','pick_time'])
-# spread_plating = pd.DataFrame(data=None,columns=['ts','name','dishes','media','antibiotic','antibio_vol','antibio_conc','arabinose_vol','arabinose_conc','chloram_vol','chloram_conc','spread_time'])
+# spread_plating = pd.DataFrame(data=None,columns=['ts','name','dishes','media','spread_time'])
 # plate_replication = pd.DataFrame(data=None,columns=['ts','name','tips','plates','lids','stickers','plate_type','rep_time'])
 # screening = pd.DataFrame(data=None,columns=['ts','name','target','target_vol','target_conc','plates','setup_time','read_time'])
 
@@ -45,8 +45,9 @@ antibiotics = OrderedDict([("1", "Spectinomycin"), ('2', 'Chloramphenicol'), ('3
 plate_types = OrderedDict([('1', 'Clear'), ('2', 'Black')])
 screening_targets = OrderedDict([('1', 'Lignin'), ('2', 'Lavender Oil'), ('3', 'Caffeine'), ('4', 'Isoprene'), ('5', 'Isoprenol'), 
                                  ('6', 'Limonene'), ('7', 'Vanilin'), ('8', 'P-coumaric Acid'), ('9', 'Vanilic Acid'), ('10', 'Camphor'), 
-                                 ('11', 'Menthol'), ('12', 'Dipentene')])
-staff = OrderedDict([('1',"Aneesha"),('2','Cameron'),('3','Giles'),('4','Nina'),('5','Will')])
+                                 ('11', 'Menthol'), ('12', 'Dipentene'),('13','Bisabolol'),('14','Pimelic Acid'),
+                                 ('15','Nona-2,6-diene-ol'),('16','4-hydroxydecanote'),('17','7-aminoheptanoic acid')])
+staff = OrderedDict([('1',"Aneesha"),('2','Cameron'),('3','Giles'),('4','Nina'),('5','Will'),('6','Cindy')])
 
 
 # In[4]:
@@ -173,13 +174,14 @@ def plate_filling():
     plates = inp("PLATES! Please enter the number of PLATES you used: ")
     media = inp("MEDIA! Please enter the total ml of MEDIA you poured: ")
     tips = inp("TIPS! Please enter the number of BOXES of TIPS you used - fractions are OK: ")
-    antibiotic = dict_select(antibiotics,"Which ANTIBIOTIC did you use? Please select the NUMBER associated with your ANTIBIOTIC above: ","Bad input. Please enter the LIST NUMBER associated with the ANTIOBIOTIC you used")
-    antibio_vol = inp("ANTIBIOTICS! Please enter the VOLUME of ANTIBIOTICS used: ")
-    antibio_conc = inp("ANTIBIOTICS! Please enter the CONCETNRATION of ANTIBIOTICS used: ")
+#      will says we don't need these, so hashed out for now. if used in future need to add values back into output
+#     antibiotic = dict_select(antibiotics,"Which ANTIBIOTIC did you use? Please select the NUMBER associated with your ANTIBIOTIC above: ","Bad input. Please enter the LIST NUMBER associated with the ANTIOBIOTIC you used")
+#     antibio_vol = inp("ANTIBIOTICS! Please enter the VOLUME of ANTIBIOTICS used: ")
+#     antibio_conc = inp("ANTIBIOTICS! Please enter the CONCETNRATION of ANTIBIOTICS used: ")
     fill_time = inp("TIME! How long in MINUTES did it take you to FILL PLATES: ")
     ts = datetime.datetime.utcnow()
     
-    pf_results = pd.DataFrame([[ts,name,plates,media,tips,antibiotic,antibio_vol,antibio_conc,fill_time]],columns=['ts','name','plates','media','tips','antibiotic','antibio_vol','antibio_conc','fill_time'])
+    pf_results = pd.DataFrame([[ts,name,plates,media,tips,fill_time]],columns=['ts','name','plates','media','tips','fill_time'])
     pf_doc = pd.read_csv('plate_filling.csv', index_col=0)
     new_results = pf_doc.append(pf_results,ignore_index=True)
     new_results.to_csv('plate_filling.csv')
@@ -220,17 +222,18 @@ def plate_spreading():
     the appropriate csv file.  It calls upon the inp and dict_select functions."""
     dishes = inp("PETRI DISHES! Please enter the number of PETRI DISHES you used: ")
     media = inp("AGAR! Please enter the total ml of AGAR MEDIA you poured: ")
-    antibiotic = dict_select(antibiotics,"Which ANTIBIOTIC did you use? Please select the NUMBER associated with your ANTIBIOTIC above: ","Bad input. Please enter the LIST NUMBER associated with the ANTIOBIOTIC you used")
-    antibio_vol = inp("ANTIBIOTICS! Please enter the VOLUME of ANTIBIOTICS used: ")
-    antibio_conc = inp("ANTIBIOTICS! Please enter the CONCETNRATION of ANTIBIOTICS used: ")
-    arabinose_vol = inp("ARABINOSE! Please enter the VOLUME of ARABINOSE used: ")
-    arabinose_conc = inp("ARABINOSE! Please enter the CONCETNRATION of ARABINOSE used: ")
-    chloram_vol = inp("CHLORAM! Please enter the VOLUME of CHLORAM used: ")
-    chloram_conc = inp("CHLORAM! Please enter the CONCETNRATION of CHLORAM used: ")
+#      will says we don't need these, so hashed out for now. if used in future need to add values back into output    
+#     antibiotic = dict_select(antibiotics,"Which ANTIBIOTIC did you use? Please select the NUMBER associated with your ANTIBIOTIC above: ","Bad input. Please enter the LIST NUMBER associated with the ANTIOBIOTIC you used")
+#     antibio_vol = inp("ANTIBIOTICS! Please enter the VOLUME of ANTIBIOTICS used: ")
+#     antibio_conc = inp("ANTIBIOTICS! Please enter the CONCETNRATION of ANTIBIOTICS used: ")
+#     arabinose_vol = inp("ARABINOSE! Please enter the VOLUME of ARABINOSE used: ")
+#     arabinose_conc = inp("ARABINOSE! Please enter the CONCETNRATION of ARABINOSE used: ")
+#     chloram_vol = inp("CHLORAM! Please enter the VOLUME of CHLORAM used: ")
+#     chloram_conc = inp("CHLORAM! Please enter the CONCETNRATION of CHLORAM used: ")
     spread_time = inp("TIME! How long in MINUTES did it take you to PLATE SPREAD: ")
     ts = datetime.datetime.utcnow()
     
-    ps_results = pd.DataFrame([[ts,name,dishes,media,antibiotic,antibio_vol,antibio_conc,arabinose_vol,arabinose_conc,chloram_vol,chloram_conc,spread_time]],columns=['ts','name','dishes','media','antibiotic','antibio_vol','antibio_conc','arabinose_vol','arabinose_conc','chloram_vol','chloram_conc','spread_time'])
+    ps_results = pd.DataFrame([[ts,name,dishes,media,spread_time]],columns=['ts','name','dishes','media','spread_time'])
     ps_doc = pd.read_csv('plate_spreading.csv', index_col=0)
     new_results = ps_doc.append(ps_results,ignore_index=True)
     new_results.to_csv('plate_spreading.csv')
