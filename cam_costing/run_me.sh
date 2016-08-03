@@ -2,7 +2,7 @@
 ##
 ##
 
-cd ~/Desktop/screen_cost/cam_costing
+cd ~/Desktop/Lab-data/screen_cost/cam_costing
 git pull
 python3 cost_tracking.py
 git add .

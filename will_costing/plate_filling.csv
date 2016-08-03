@@ -1,1 +1,6 @@
+<<<<<<< HEAD
 ,ts,name,plates,media,tips,fill_time
+=======
+,ts,name,plates,media,tips,antibiotic,antibio_vol,antibio_conc,fill_time
+0,2016-08-03 21:57:39.476812,Will,20.0,400.0,20.0,Chloramphenicol,20.0,200.0,20.0
+>>>>>>> 8b10a736f0ddeed198fd8619637775f97e5051b1
