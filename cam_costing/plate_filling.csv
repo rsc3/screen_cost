@@ -1,6 +1,1 @@
-<<<<<<< HEAD
-,ts,name,plates,media,tips,fill_time
-=======
-,ts,name,plates,media,tips,antibiotic,antibio_vol,antibio_conc,fill_time
-0,2016-08-03 21:52:57.999641,Cameron,30.0,500.0,30.0,Spectinomycin,50.0,50.0,120.0
->>>>>>> 8b10a736f0ddeed198fd8619637775f97e5051b1
+,ts,name,target,target_volume,target_concerntration,plates,media,tips,fill_time
