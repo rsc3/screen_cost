@@ -1,2 +1,1 @@
-,ts,name,target,control_plates,treatment_plates,setup_time
-0,2016-08-11 22:01:13.210255,Aneesha,Lignin,10.0,20.0,60.0
+,ts,name,target,control_plates,treatment_plates,library_type,construct_id,incubation_time,setup_time

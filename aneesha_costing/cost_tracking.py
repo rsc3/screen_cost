@@ -26,8 +26,8 @@ import os
 # plate_filling = pd.DataFrame(data=None,columns=['ts','name','target','target_volume','target_concerntration','plates','media','tips','fill_time'],index=index)
 # colony_picking = pd.DataFrame(data=None,columns=['ts','name','dish_id','plates','lids','stickers','toothpicks','pick_time'],index=index)
 # plate_spreading = pd.DataFrame(data=None,columns=['ts','name','dishes','media','spread_time'],index=index)
-# plate_replication = pd.DataFrame(data=None,columns=['ts','name','tips', 'replicator','plates','lids','stickers','rep_time'],index=index)
-# screening = pd.DataFrame(data=None,columns=['ts','name','target','control_plates','treatment_plates','setup_time'],index=index)
+# plate_replication = pd.DataFrame(data=None,columns=['ts','name','tips', 'incubation_volume', 'replicator','plates','lids','stickers','rep_time'],index=index)
+# screening = pd.DataFrame(data=None,columns=['ts','name','target','control_plates','treatment_plates','library_type','construct_id','incubation_time','setup_time'],index=index)
 # plate_reading = pd.DataFrame(data=None,columns=['ts','name','read_time','plates_read','read1','read2','read3','fluorescence_type1','fluorescence_type2'],index=index)
 
 # plate_filling.to_csv('plate_filling.csv')
@@ -49,11 +49,13 @@ plate_types = OrderedDict([('1', 'Clear'), ('2', 'Black')])
 screening_targets = OrderedDict([('1', 'Lignin'), ('2', 'Lavender Oil'), ('3', 'Caffeine'), ('4', 'Isoprene'), ('5', 'Isoprenol'), 
                                  ('6', 'Limonene'), ('7', 'Vanilin'), ('8', 'P-coumaric Acid'), ('9', 'Vanilic Acid'), ('10', 'Camphor'), 
                                  ('11', 'Menthol'), ('12', 'Dipentene'),('13','Bisabolol'),('14','Pimelic Acid'),
-                                 ('15','Nona-2,6-diene-ol'),('16','4-hydroxydecanote'),('17','7-aminoheptanoic acid')])
+                                 ('15','Nona-2,6-diene-ol'),('16','4-hydroxydecanote'),('17','7-aminoheptanoic acid'),('18','Water'),('19','Ethanol')])
 staff = OrderedDict([('1',"Aneesha"),('2','Cameron'),('3','Giles'),('4','Nina'),('5','Will'),('6','Cindy')])
 binary_dict =OrderedDict([("1", "Yes"), ("2", "No")])
 read_units = OrderedDict([('1', 'Fluorescence'),('2', 'OD'),('3','Luminescence')])
-fluorecence_reads = OrderedDict([('1','GFP'),('2', 'MUG')])
+fluorecence_reads = OrderedDict([('1','Gemini'),('2', 'MUG'),('3','mCherry')])
+library_type = OrderedDict([('1', 'e.coli'),('2', 'fosmid')])
+construct_id = OrderedDict([('1','gemini/specR'),('2','mCherry/KanR')])
 
 
 # In[ ]:
@@ -281,6 +283,7 @@ def plate_replication():
     dummy = False
     replicator = 0
     tips = 0
+    incubation_vol = 0
     while dummy == False:
         tip_q = dict_select(binary_dict, 'Did you use tips? Please select the NUMBER associated with your answer', "Bad input. Please enter the LIST NUMBER associated with your answer")
         if tip_q == "Yes":
@@ -290,6 +293,8 @@ def plate_replication():
             tips = None
             replicator = dict_select(binary_dict, 'Did you use replicators? Please select the NUMBER associated with your answer', "Bad input. Please enter the LIST NUMBER associated with your answer")
             dummy = True
+    if tips != 0:
+        incubation_vol = inp('INCUBATION VOLUME! What was the INCUBATION VOLUME in uL: ')
     plates = inp("PLATES! Please enter the number of PLATES W/ MEDIA you used: ")
     lids = plates 
     stickers = plates
@@ -297,7 +302,7 @@ def plate_replication():
     rep_time = inp("TIME! How long in MINUTES did it take you to REPLICATE PLATES: ")
     ts = datetime.datetime.utcnow()
     
-    pr_results = pd.DataFrame([[ts,name,tips,replicator,plates,lids,stickers,rep_time]],columns=['ts','name','tips', 'replicator','plates','lids','stickers','rep_time'])
+    pr_results = pd.DataFrame([[ts,name,tips,incubation_vol,replicator,plates,lids,stickers,rep_time]],columns=['ts','name','tips','incubation_volume', 'replicator','plates','lids','stickers','rep_time'])
     pr_doc = pd.read_csv('plate_replication.csv', index_col=0)
     new_results = pr_doc.append(pr_results,ignore_index=True)
     new_results.to_csv('plate_replication.csv')
@@ -317,11 +322,17 @@ def screening():
 #     target_vol = inp("TARGET CHEMICAL! Please enter the VOLUME of CHEMICAL used in ml: ")
 #     target_conc = inp("TARGET CHEMICAL! Please enter the CONCETNRATION of CHEMICAL used in mM: ")
     control_plates = inp("CONTROL PLATES! Please enter the number of CONTROL PLATES you screened: ")
+    incubation_time = inp("INCUBATION TIME! How long did you INCUBATE in hours: ")
     treatment_plates = inp("TREATMENT PLATES! Please enter the number of TREATMENT PLATES you screened: ")
+    lib_type = dict_select(library_type,"LIBRARY TYPE! Please enter the NUMBER associated with LIBRARY TYPE you used: ",
+                           "Bad input. Please enter the LIST NUMBER associated with the LIBRARY TYPE you used")
+    construct = None
+    if lib_type == "fosmid":
+        construct = dict_select(construct_id,"CONSTRUCT ID! Please enter the NUMBER associated with the CONSTRCUT ID used: ","Bad input. Please enter the LIST NUMBER associated with the CONSTRUCT ID you used" )
     setup_time = inp("How much TIME in MINUTES did you spend on screen SETUP: ")
     ts = datetime.datetime.utcnow()
     
-    sc_results = pd.DataFrame([[ts,name,target,control_plates, treatment_plates,setup_time]],columns=['ts','name','target','control_plates','treatment_plates','setup_time'])
+    sc_results = pd.DataFrame([[ts,name,target,control_plates, treatment_plates,lib_type,construct,incubation_time,setup_time]],columns=['ts','name','target','control_plates','treatment_plates','library_type','construct_id','incubation_time','setup_time'])
     sc_doc = pd.read_csv('screening.csv', index_col=0)
     new_results = sc_doc.append(sc_results,ignore_index=True)
     new_results.to_csv('screening.csv')
