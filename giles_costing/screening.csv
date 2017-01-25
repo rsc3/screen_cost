@@ -1,2 +1,3 @@
 ,ts,name,target,control_plates,treatment_plates,library_type,construct_id,incubation_time,setup_time
 0,2016-08-17 23:26:04.837859,Giles,Isoprene,12.0,12.0,e.coli,,12.0,12.0
+1,2017-01-25 17:20:52.281924,Giles,Lignin,1.0,1.0,e.coli,,1.0,1.0

@@ -1,2 +1,3 @@
 ,ts,name,read_time,plates_read,read1,read2,read3,fluorescence_type1,fluorescence_type2
 0,2016-08-17 23:27:42.310494,Giles,1.0,1.0,Luminescence,OD,Luminescence,,
+1,2017-01-25 17:21:12.085744,Giles,1.0,1.0,Fluorescence,,,Gemini,Gemini
